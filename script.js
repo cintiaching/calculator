@@ -29,3 +29,9 @@ function operate(a, b, operator){
             return null;
     }
 }
+
+function populateDisplay(digit) {
+    display = document.getElementsByClassName('display');
+    display.textContent = digit;
+}
+
