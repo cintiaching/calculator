@@ -34,4 +34,3 @@ function populateDisplay(digit) {
     display = document.getElementsByClassName('display');
     display.textContent = digit;
 }
-
