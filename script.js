@@ -36,15 +36,32 @@ function operate(a, b, operator){
 }
 
 function updateDisplay(digit) {
-    display.textContent = digit;
+    display.textContent = convertNumberToEmoji(digit);
 }
 
 function roundResult(number) {
     return Math.round(number * 1000) / 1000;
 }
 
-let number1Display = '';
-let number2Display = '';
+function convertNumberToEmoji(number) {
+    const emojiMap = {
+        '0': '0️⃣',
+        '1': '1️⃣',
+        '2': '2️⃣',
+        '3': '3️⃣',
+        '4': '4️⃣',
+        '5': '5️⃣',
+        '6': '6️⃣',
+        '7': '7️⃣',
+        '8': '8️⃣',
+        '9': '9️⃣',
+        '.': '●' // For the decimal point
+    };
+
+    // Convert the number to a string and map each character to its emoji
+    return number.toString().split('').map(digit => emojiMap[digit] || digit).join('');
+}
+
 let number1 = '';
 let number2 = '';
 let operator = '';
@@ -52,9 +69,7 @@ let result = null;
 let is_reset = true;
 
 function resetCalculator() {
-    updateDisplay('0');
-    number1Display = '';
-    number2Display = '';
+    updateDisplay(0);
     number1 = '';
     number2 = '';
     operator = '';
@@ -63,7 +78,7 @@ function resetCalculator() {
 }
 
 let display = document.getElementsByClassName('display')[0];
-updateDisplay('0');
+updateDisplay(0);
 
 const buttons = document.querySelectorAll('button');
 buttons.forEach(button => {
@@ -71,20 +86,17 @@ buttons.forEach(button => {
         console.log(button.classList);
         if (button.classList.contains('number')) {
             if (operator) {
-                number2Display += button.textContent;
                 number2 += button.classList[1];
-                updateDisplay(number2Display);
+                updateDisplay(number2);
             } else {
                 if (!is_reset) {
                     // if not reset and clicked number, start new calculation
-                    number1Display = '';
                     number1 = '';
                     is_reset = true;
                 }
-                number1Display += button.textContent;
                 number1 += button.classList[1];
                 console.log(number1);
-                updateDisplay(number1Display);
+                updateDisplay(number1);
             }
         }
 
@@ -98,9 +110,7 @@ buttons.forEach(button => {
                 updateDisplay(roundResult(result));
                 // set number1 to result, clear number2 and operator for next operation
                 number1 = result.toString();
-                number1Display = result.toString();
                 number2 = '';
-                number2Display = '';
                 operator = '';
                 is_reset = false;
             } else if (!number1) {
@@ -116,16 +126,14 @@ buttons.forEach(button => {
             if (operator) {
                 // Allow decimal in the second number
                 if (!number2.includes('.')) {
-                    number2Display += button.textContent;
                     number2 += '.';
-                    updateDisplay(number2Display);
+                    updateDisplay(number2);
                 }
             } else {
                 // Allow decimal in the first number
                 if (!number1.includes('.')) {
-                    number1Display += button.textContent;
                     number1 += '.';
-                    updateDisplay(number1Display);
+                    updateDisplay(number1);
                 }
             }
         }
@@ -136,14 +144,14 @@ buttons.forEach(button => {
         if (button.classList.contains('delete')) {
             if (number2) {
                 number2 = number2.slice(0, -1);
-                number2Display = number2Display.slice(0, -3);
-                updateDisplay(number2Display || '0');
+                //number2Display = number2Display.slice(0, -3);
+                updateDisplay(number2 || '0');
             } else if (operator) {
                 operator = '';
             } else if (number1) {
                 number1 = number1.slice(0, -1);
-                number1Display = number1Display.slice(0, -3);
-                updateDisplay(number1Display || '0');
+                //number1Display = number1Display.slice(0, -3);
+                updateDisplay(number1 || '0');
             }
         }
     });
