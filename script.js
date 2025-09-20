@@ -12,6 +12,11 @@ function multiply(a, b){
 }
 
 function divide(a, b){
+    if (b === 0) {
+        alert("You can't divide by zero LOL");
+        resetCalculator();
+        return;
+    }
     return a / b
 }
 
@@ -44,7 +49,18 @@ let number1 = '';
 let number2 = '';
 let operator = '';
 let result = null;
-is_reset = true;
+let is_reset = true;
+
+function resetCalculator() {
+    updateDisplay('0');
+    number1Display = '';
+    number2Display = '';
+    number1 = '';
+    number2 = '';
+    operator = '';
+    result = null;
+    is_reset = true;
+}
 
 let display = document.getElementsByClassName('display')[0];
 updateDisplay('0');
@@ -87,18 +103,17 @@ buttons.forEach(button => {
                 number2Display = '';
                 operator = '';
                 is_reset = false;
+            } else if (!number1) {
+                alert('Please enter a number first LOL');
+            } else if (!operator) {
+                alert('Please select an operator LOL');
+            } else if (!number2) {
+                alert('Please enter a second number LOL');
             }
         }
 
         if (button.classList.contains('reset')) {
-            updateDisplay('0');
-            number1Display = '';
-            number2Display = '';
-            number1 = '';
-            number2 = '';
-            operator = '';
-            result = null;
-            is_reset = true;
+            resetCalculator();
         }
         if (button.classList.contains('delete')) {
             if (number2) {
