@@ -112,6 +112,24 @@ buttons.forEach(button => {
             }
         }
 
+        if (button.classList.contains('decimal')) {
+            if (operator) {
+                // Allow decimal in the second number
+                if (!number2.includes('.')) {
+                    number2Display += button.textContent;
+                    number2 += '.';
+                    updateDisplay(number2Display);
+                }
+            } else {
+                // Allow decimal in the first number
+                if (!number1.includes('.')) {
+                    number1Display += button.textContent;
+                    number1 += '.';
+                    updateDisplay(number1Display);
+                }
+            }
+        }
+
         if (button.classList.contains('reset')) {
             resetCalculator();
         }
